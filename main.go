@@ -11,8 +11,15 @@ type HelloWorld struct {
 }
 
 func main() {
+	//initialise Echo framework
 	e := echo.New()
-	e.Use(middleware.Logger())
+
+	//Middleware
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "method=${method}, uri=${uri}, status=${status}, host=${host}\n",
+	}))
+
+	//Handlers
 	e.GET("/", Greeting)
 	e.GET("/hello/:name", GreetingWithParams)
 	e.GET("/hello-queries", GreetingWithQuery)
